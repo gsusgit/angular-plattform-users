@@ -7,13 +7,18 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
   userName: string = '';
+  needsLogin: boolean = false;
 
   constructor(private http: HttpClient) {
   }
 
   ngOnInit(): void {
     this.userName = this.getCookie('_g.e.username');
+    if (this.userName === '') {
+      this.needsLogin = true;
+    }
   }
 
   getCookie(name: string) {
@@ -25,7 +30,6 @@ export class HomeComponent implements OnInit {
     for (let i: number = 0; i < caLen; i += 1) {
       c = ca[i].replace(/^\s+/g, '');
       if (c.indexOf(cookieName) === 0) {
-        console.log(c.substring(cookieName.length, c.length));
         return c.substring(cookieName.length, c.length);
       }
     }
